@@ -4,7 +4,7 @@ class CreatePosts < ActiveRecord::Migration
       t.integer :user_id, {null: false}
       t.text :text
       t.decimal :pos_avg
-      t.decimal :nut_avg
+      t.decimal :neutral_avg
       t.decimal :neg_avg
 
       t.timestamps null: false
