@@ -3,7 +3,9 @@ get '/' do
 end
 
 post '/save' do
-  # post = Post.new(user_id: session[:user_id], text: params[:content])
-  analyze_post(params[:content])
+  clean_post = clean_post(params[:content])
+  post = Post.create(user_id: session[:user_id], text: clean_post)
+  analyze_post(clean_post, post.id)
+  Paragraph.where(post_id: post.id)
   redirect '/'
 end
