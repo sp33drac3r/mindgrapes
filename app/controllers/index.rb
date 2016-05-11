@@ -3,7 +3,7 @@ get '/' do
 end
 
 post '/save' do
-  post = Post.new(user_id: session[:user_id], text: params[:content])
-  analyze_post(post)
+  # post = Post.new(user_id: session[:user_id], text: params[:content])
+  analyze_post(params[:content])
   redirect '/'
 end
