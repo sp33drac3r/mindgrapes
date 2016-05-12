@@ -4,8 +4,11 @@ end
 
 post '/save' do
   clean_post = clean_post(params[:content])
-  post = Post.create(user_id: session[:user_id], text: clean_post)
-  analyze_post(clean_post, post.id)
-  Paragraph.where(post_id: post.id)
+  post = Post.create(user_id: rand(1..100), text: clean_post)
+  post_array = analyze_post(clean_post)
+  post_array.each do |paragraph|
+    paragraph["post_id"] = post.id
+    Paragraph.create(paragraph)
+  end
   redirect '/'
 end
