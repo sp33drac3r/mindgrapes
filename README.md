@@ -1,3 +1,2 @@
-# budly
-# to do
-*
+##TODO
+Add good readme
