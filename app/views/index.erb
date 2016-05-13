@@ -1,5 +1,19 @@
-<div class="ui form">
-  <div class="field">
-    <textarea rows="2">today's reflection</textarea>
+<div class="ui left fixed vertical menu">
+  <div class="item">
+    <img class="ui mini image" src="/images/logo.png">
   </div>
+  <a class="item">Today</a>
+  <a class="item">The Past</a>
+  <a class="item">Over Time</a>
+</div>
+<div class="ui container">
+  <form action="/save" method="post">
+    <div class="ui form">
+      <div class="field">
+        <label>Today's Reflection</label>
+        <textarea name='content'></textarea><br><br>
+        <button class='ui teal basic button' type='submit' value='save'>save</button>
+      </div>
+    </div>
+  </form>
 </div>
