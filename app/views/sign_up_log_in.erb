@@ -1,31 +1,34 @@
+<%= erb :_sign_up_modal %>
 <br><br>
 <h1 class="ui orange header" align="center">reflect</h1><br>
 <div class="ui raised very padded text container segment">
   <div class="ui two column middle aligned very relaxed stackable grid">
     <div class="column">
+    <form action='/login' method="post">
       <div class="ui form">
         <div class="field">
           <label>Email</label>
           <div class="ui left icon input">
-            <input type="text" placeholder="Email">
+            <input type="text" placeholder="Email" name="user[email]">
             <i class="user icon"></i>
           </div>
         </div>
         <div class="field">
           <label>Password</label>
           <div class="ui left icon input">
-            <input type="password">
+            <input type="password" name="user[password]">
             <i class="lock icon"></i>
           </div>
         </div>
-        <div class="ui blue submit button">Login</div>
+        <button type="submit" class="ui blue submit button">Login</button>
       </div>
+      </form>
     </div>
     <div class="ui vertical divider">
       Or
     </div>
     <div class="center aligned column">
-      <div class="ui big green labeled icon button">
+      <div class="ui big teal labeled icon button" id="signup-button">
         <i class="signup icon"></i>
         Sign Up
       </div>
