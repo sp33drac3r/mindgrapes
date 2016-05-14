@@ -20,6 +20,12 @@ post '/save' do
     paragraph["post_id"] = post.id
     Paragraph.create(paragraph)
   end
+  paragraphs = Paragraph.where(post_id: post.id)
+  averages = sentiment_extruder(paragraphs)
+  post.pos_avg = averages[:pos]
+  post.neutral_avg = averages[:neu]
+  post.neg_avg = averages[:neg]
+  post.save
   redirect '/'
 end
 
