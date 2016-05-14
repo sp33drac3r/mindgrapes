@@ -1,9 +1,7 @@
 class User < ActiveRecord::Base
   has_many :posts
   has_many :paragraphs, through: :posts
-
   validates :email, :password, presence: true
-
   include BCrypt
 
   def password
@@ -12,7 +10,6 @@ class User < ActiveRecord::Base
 
   def self.authenticate(args)
     user = User.find_by(email: args['email'])
-    p user
     user && user.password == args['password'] ? user : nil
   end
 

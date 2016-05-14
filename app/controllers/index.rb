@@ -2,20 +2,14 @@ get '/' do
   if logged_in?
     erb :index
   else
-    #erb :index
     erb :sign_up_log_in
   end
 end
 
 post '/login' do
   @user = User.authenticate(params["user"])
-  p @user
-  if @user
-    login(@user)
-    redirect '/'
-  else
-    redirect '/'
-  end
+  login(@user) if @user
+  redirect '/'
 end
 
 post '/save' do
@@ -23,7 +17,6 @@ post '/save' do
   post = Post.create(user_id: rand(1..100), text: clean_post)
   post_array = analyze_post(clean_post)
   post_array.each do |paragraph|
-    p paragraph
     paragraph["post_id"] = post.id
     Paragraph.create(paragraph)
   end
@@ -33,10 +26,11 @@ end
 post "/users" do
   params["user"]["ok_to_email"] = true if params["user"]["ok_to_email"] == "on"
   @user = User.new(params["user"])
-  if @user.save
-    login(@user)
-    redirect '/'
-  else
-    redirect '/'
-  end
+  login(@user) if @user.save
+  redirect '/'
+end
+
+get '/logout' do
+  logout!
+  redirect '/'
 end
