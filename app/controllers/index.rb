@@ -1,5 +1,10 @@
 get '/' do
-  erb :index
+  if logged_in?
+    erb :index
+  else
+    erb :index
+    # erb :sign_up_log_in
+  end
 end
 
 post '/save' do
