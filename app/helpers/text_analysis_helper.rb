@@ -19,4 +19,29 @@ helpers do
     sentiment = RestClient.post("http://text-processing.com/api/sentiment/", text: paragraph)
     JSON.parse(sentiment)
   end
+
+  def weighted_average(values, weights)
+    raise TypeError unless values.length == weights.length
+    weighted_sum = 0
+    values.each_with_index { |value, index| weighted_sum += (value * weights[index]) }
+    weighted_sum.to_f / weights.inject(:+).to_f
+  end
+
+  def sentiment_extruder(paragraphs)
+    averages = {}
+    pos_scores = []
+    neu_scores = []
+    neg_scores = []
+    weights    = []
+    paragraphs.each do |paragraph|
+      pos_scores << paragraph.pos.to_f
+      neu_scores << paragraph.neutral.to_f
+      neg_scores << paragraph.neg.to_f
+      weights    << paragraph.char_length
+    end
+    averages[:pos] = weighted_average(pos_scores, weights)
+    averages[:neu] = weighted_average(neu_scores, weights)
+    averages[:neg] = weighted_average(neg_scores, weights)
+    return averages
+  end
 end
