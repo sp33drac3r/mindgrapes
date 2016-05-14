@@ -1,0 +1,29 @@
+<div class="ui modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Sign Up
+  </div>
+  <div class="ui padded segment">
+    <form class="ui form" action="/users" method="post">
+      <div class="field"><br>
+        <label>Name</label>
+        <input type="text" name="user[name]" placeholder="Your Name">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="text" name="user[email]" placeholder="Email">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="user[password]">
+      </div>
+      <div class="field">
+        <div class="ui checkbox">
+          <input type="checkbox" tabindex="0" name=user[ok_to_email]>
+          <label>Reflect would like to send you encouraging, non-promotional emails... also cats.</label>
+        </div>
+      </div>
+      <button class="ui teal button" type="submit">Submit</button>
+    </form><br>
+    </div>
+</div>

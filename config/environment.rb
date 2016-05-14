@@ -17,6 +17,7 @@ require 'logger'
 require 'json'
 require 'rest-client'
 require 'date'
+require 'bcrypt'
 
 require 'sinatra'
 require "sinatra/reloader" if development?
