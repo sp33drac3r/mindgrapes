@@ -1,7 +1,7 @@
 class CreatePosts < ActiveRecord::Migration
   def change
     create_table :posts do |t|
-      t.integer :user_id, {null: false}
+      t.references :user, index: true
       t.text :text
       t.decimal :pos_avg
       t.decimal :neutral_avg

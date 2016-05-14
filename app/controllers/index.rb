@@ -7,6 +7,7 @@ post '/save' do
   post = Post.create(user_id: rand(1..100), text: clean_post)
   post_array = analyze_post(clean_post)
   post_array.each do |paragraph|
+    p paragraph
     paragraph["post_id"] = post.id
     Paragraph.create(paragraph)
   end

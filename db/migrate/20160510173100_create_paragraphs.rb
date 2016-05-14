@@ -1,7 +1,7 @@
 class CreateParagraphs < ActiveRecord::Migration
   def change
     create_table :paragraphs do |t|
-      t.integer :post_id, {null: false}
+      t.references :post, index: true
       t.decimal :pos
       t.decimal :neutral
       t.decimal :neg

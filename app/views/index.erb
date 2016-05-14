@@ -1,19 +1,30 @@
-<div class="ui left fixed vertical menu">
-  <div class="item">
-    <img class="ui mini image" src="/images/logo.png">
+<h1 class="ui top attached orange header" align="center">
+  reflect
+</h1>
+<br>
+<button class="ui button" id='left-nav'><i class="big paragraph icon"></i></button>
+  <div class="ui sidebar inverted vertical menu">
+    <a class="item active">
+      today
+    </a>
+    <a class="item">
+      yesterday
+    </a>
+    <a class="item">
+      over time
+    </a>
   </div>
-  <a class="item">Today</a>
-  <a class="item">The Past</a>
-  <a class="item">Over Time</a>
-</div>
-<div class="ui container">
-  <form action="/save" method="post">
-    <div class="ui form">
-      <div class="field">
-        <label>Today's Reflection</label>
-        <textarea name='content'></textarea><br><br>
-        <button class='ui teal basic button' type='submit' value='save'>save</button>
+  <div class="pusher">
+    <div class="ui text container" id="home_textarea">
+    <form action="/save" method="post">
+      <div class="ui form">
+        <div class="field">
+          <label>Today's Reflection</label>
+          <textarea name='content'></textarea><br><br>
+          <button class='ui teal basic button' type='submit' value='save'>save</button>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
+
