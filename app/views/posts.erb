@@ -6,7 +6,7 @@
     <div class="item">
       <i class="large inverted orange bookmark middle aligned icon"></i>
       <div class="content">
-        <a class="header" href="#"><%= post.created_at.strftime("%B %d, %Y") %></a>
+        <a href="/posts/<%= post.id %>" class="post header" ><%= post.created_at.strftime("%B %d, %Y") %></a>
         <div class="description"><%= post.text[0..300]%>...</div>
       </div>
     </div>
