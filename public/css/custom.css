@@ -446,3 +446,11 @@ body {
   background: -webkit-linear-gradient(to left, #606c88 , #3f4c6b);
   background: linear-gradient(to left, #606c88 , #3f4c6b);
 }
+
+h1 {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
