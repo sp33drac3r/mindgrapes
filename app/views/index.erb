@@ -1,32 +1,12 @@
-<h1 class="ui top attached orange header" align="center">
-  reflect
-</h1>
-<br>
-<button class="ui button small" id='left-nav'><i class="big paragraph icon"></i></button>
-  <div class="ui sidebar inverted vertical menu">
-    <a class="item active">
-      present
-    </a>
-    <a class="item">
-      past
-    </a>
-    <a class="item">
-      through time
-    </a>
-    <a class="item" id="sign-out" href="/logout">
-      <i class="sign out icon"></i> logout
-    </a>
-  </div>
-  <div class="pusher">
-    <div class="ui text container" id="home_textarea">
-    <form action="/save" method="post">
-      <div class="ui form">
-        <div class="field">
-          <label>Today's Reflection</label>
-          <textarea name='content'></textarea><br><br>
-          <button class='ui teal basic button' type='submit' value='save'>save</button>
-        </div>
+<div class="ui text container" id="home_textarea">
+  <form action="/save" method="post">
+    <div class="ui form">
+      <div class="field">
+        <label>Today's Reflection</label>
+        <textarea name='content'></textarea><br><br>
+        <button class='ui teal basic button' type='submit' value='save'>save</button>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
+

@@ -7,9 +7,31 @@
 </head>
 <body>
 
-  <main>
-    <%= yield %>
-  </main>
+<div class="ui teal pointing menu">
+  <a class="active item" href="/today">
+    today
+  </a>
+  <a class="item" href="/posts">
+    yesterday
+  </a>
+  <a class="item">
+    over time
+  </a>
+
+  <div class="right menu">
+    <a class='item' href='/logout'>logout</a>
+  </div>
+
+</div>
+<div class="ui container">
+
+<div class="yield">
+  <%= yield %>
+</div>
+</div>
+
+
+
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="semantic/dist/semantic.min.js"></script>
