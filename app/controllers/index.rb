@@ -6,6 +6,15 @@ get '/' do
   end
 end
 
+get '/today' do
+  erb :index, layout: false
+end
+
+get '/posts' do
+  @posts = Post.where(user_id: session[:user_id].to_i)
+  erb :posts, layout: false
+end
+
 post '/login' do
   @user = User.authenticate(params["user"])
   login(@user) if @user
@@ -14,7 +23,7 @@ end
 
 post '/save' do
   clean_post = clean_post(params[:content])
-  post = Post.create(user_id: rand(1..100), text: clean_post)
+  post = Post.create(user_id: session[:user_id], text: clean_post)
   post_array = analyze_post(clean_post)
   post_array.each do |paragraph|
     paragraph["post_id"] = post.id
