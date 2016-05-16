@@ -1,12 +1,6 @@
 $( document ).ready(function() {
-  $('#sidebar-icon').click(function(){
 
-    $('.sidebar')
-      .sidebar('toggle')
-    ;
-  });
-
-  $(".ui.pointing.menu a").click(function(event){
+  $(".pointy").click(function(event){
     event.preventDefault()
     var url = $( this ).attr('href')
     $( this ).siblings().removeClass("active")

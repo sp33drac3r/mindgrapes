@@ -2,7 +2,7 @@ get '/' do
   if logged_in?
     erb :index
   else
-    erb :sign_up_log_in
+    erb :sign_up_log_in, layout: false
   end
 end
 
@@ -11,7 +11,7 @@ get '/today' do
 end
 
 get '/posts' do
-  @posts = Post.where(user_id: session[:user_id].to_i)
+  @posts = Post.where(user_id: session[:user_id].to_i).order(created_at: :desc)
   erb :posts, layout: false
 end
 
@@ -47,5 +47,5 @@ end
 
 get '/logout' do
   logout!
-  redirect '/'
+  erb :sign_up_log_in, layout: false
 end

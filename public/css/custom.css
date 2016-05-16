@@ -440,3 +440,9 @@ th {
     transform: translate(-50%, -50%);
   }
 }
+
+body {
+  background: #606c88;
+  background: -webkit-linear-gradient(to left, #606c88 , #3f4c6b);
+  background: linear-gradient(to left, #606c88 , #3f4c6b);
+}
