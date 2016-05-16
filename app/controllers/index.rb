@@ -15,6 +15,15 @@ get '/posts' do
   erb :posts, layout: false
 end
 
+get '/posts/:id' do
+  @post = Post.find_by(id: params[:id])
+  redirect '/'
+end
+
+get "/time" do
+  erb :time, layout: false
+end
+
 post '/login' do
   @user = User.authenticate(params["user"])
   login(@user) if @user
