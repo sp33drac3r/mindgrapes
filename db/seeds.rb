@@ -1,8 +1,8 @@
-10.times do
+2.times do
   name = Faker::Name.name.split(" ")[0]
   User.create(name: name,
               email: Faker::Internet.safe_email,
-              password: Faker::Internet.password,
+              password: 123,
               ok_to_email: true
   )
 end
@@ -11,7 +11,7 @@ d = Date.today
 i = 100
 while i > 0 do
   date = (d-i).to_s
-  post = Post.create(user_id: rand(1..10),
+  post = Post.create(user_id: rand(1..2),
               text: Faker::Hipster.paragraphs.join,
               pos_avg: (rand(1..100)/100.to_f),
               neutral_avg: (rand(1..100)/100.to_f),
@@ -19,7 +19,8 @@ while i > 0 do
           )
 
   post.created_at = date
-  5.time do
+  post.save
+  5.times do
     paragraph = Paragraph.create(
                   post_id: post.id,
                   pos: (rand(1..100)/100.to_f),
