@@ -30,6 +30,25 @@ post '/login' do
   redirect '/'
 end
 
+get '/data' do
+  if request.xhr?
+    user = User.find_by(id: current_user.id)
+    posts = user.posts.order(:created_at)
+    categories = []
+    positive = []
+    neutral = []
+    negative = []
+    posts.each do |post|
+      categories << post.created_at.strftime("%B %d, %Y")
+      positive << post.pos_avg.to_f
+      neutral << post.neutral_avg.to_f
+      negative << post.neg_avg.to_f
+    end
+    data = {categories: categories, positive: positive, neutral: neutral, negative: negative}
+    return data.to_json
+  end
+end
+
 post '/save' do
   clean_post = clean_post(params[:content])
   post = Post.create(user_id: session[:user_id], text: clean_post)
