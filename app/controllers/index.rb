@@ -21,8 +21,6 @@ get '/posts/:id' do
 end
 
 get "/time" do
-  p '==============='
-  p "it got here"
   erb :time, layout: false
 end
 
