@@ -13,6 +13,15 @@ $( document ).ready(function() {
     });
   });
 
+  $(".yield").on('click', '.post', function(event) {
+    event.preventDefault()
+    var url = $( this ).attr('href')
+
+    $.get( url, function(data){
+      $('.yield').html(data)
+    });
+  });
+
   $(".chart").click(function(event) {
     event.preventDefault()
     var url = $( this ).attr('href')
@@ -90,16 +99,42 @@ $( document ).ready(function() {
               layout: 'vertical',
               align: 'right',
               verticalAlign: 'middle',
-              borderWidth: 0
+              borderWidth: 0,
+              itemStyle: {
+                color: 'white'
+              }
+          },
+          plotOptions: {
+              series: {
+                  cursor: 'pointer',
+                  point: {
+                      events: {
+                          click: function(event) {
+                            $.ajax({
+                              url: '/data/' + this.category,
+                              method: "GET",
+                            }).done(function( post_response ) {
+                              $('.yield').html(post_response)
+                            });
+                          }
+                      }
+                  },
+                  marker: {
+                      lineWidth: 1
+                  }
+              }
           },
           series: [{
               name: 'Positive',
-              data: data.positive
+               color: '#ff8a65',
+              data: data.positive,
           }, {
               name: 'Neutral',
+              color: '#607d8b',
               data: data.neutral
           }, {
               name: 'Negative',
+              color: '#0288d1',
               data: data.negative
           }]
       });

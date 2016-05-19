@@ -17,7 +17,7 @@ end
 
 get '/posts/:id' do
   @post = Post.find_by(id: params[:id])
-  redirect '/'
+  erb :post, layout: false
 end
 
 get "/time" do
@@ -47,6 +47,12 @@ get '/data' do
     data = {categories: categories, positive: positive, neutral: neutral, negative: negative}
     return data.to_json
   end
+end
+
+get '/data/:date' do
+  date = DateTime.parse(params[:date]).to_date.to_s
+  @post = Post.where("date_trunc('day', created_at) = '#{date}'")[0]
+  erb :post, layout: false
 end
 
 post '/save' do
