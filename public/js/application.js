@@ -1,3 +1,5 @@
+var data = {}
+var chart
 $( document ).ready(function() {
 
   $(".pointy").click(function(event){
@@ -11,21 +13,45 @@ $( document ).ready(function() {
     });
   });
 
+  $(".yield").on('click', '.post', function(event) {
+    event.preventDefault()
+    var url = $( this ).attr('href')
+
+    $.get( url, function(data){
+      $('.yield').html(data)
+    });
+  });
+
   $(".chart").click(function(event) {
     event.preventDefault()
     var url = $( this ).attr('href')
     $( this ).siblings().removeClass("active")
     $( this ).addClass("active")
+
+    $.ajax({
+      url: '/data',
+      method: "GET",
+      async: false
+    }).done(function( data_response ) {
+      data = JSON.parse( data_response)
+    });
+
     $.ajax({
       url: url,
       method: "GET",
-    }).done(function( data ) {
-      $('.yield').html(data);
+    }).done(function( chart_response ) {
+      $('.yield').html( chart_response );
       var chart = new Highcharts.Chart({
         chart: {
           renderTo: "time-series-chart",
           backgroundColor: 'transparent',
           color: '#FFF'
+        },
+        credits: {
+          enabled: false
+        },
+        exporting: {
+          enabled: false
         },
         title: {
               text: 'Your Sentiment Over Time',
@@ -42,8 +68,7 @@ $( document ).ready(function() {
               }
           },
           xAxis: {
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+              categories: data.categories,
               labels: {
                 style: {
                   color: '#FFF'
@@ -51,6 +76,8 @@ $( document ).ready(function() {
               }
           },
           yAxis: {
+            min: 0,
+            max: 1,
               title: {
                   text: 'Sentiment Percentage (0.0 - 1.0)',
                   style: {
@@ -68,24 +95,47 @@ $( document ).ready(function() {
                 }
               }
           },
-          tooltip: {
-              valueSuffix: '°C'
-          },
           legend: {
               layout: 'vertical',
               align: 'right',
               verticalAlign: 'middle',
-              borderWidth: 0
+              borderWidth: 0,
+              itemStyle: {
+                color: 'white'
+              }
+          },
+          plotOptions: {
+              series: {
+                  cursor: 'pointer',
+                  point: {
+                      events: {
+                          click: function(event) {
+                            $.ajax({
+                              url: '/data/' + this.category,
+                              method: "GET",
+                            }).done(function( post_response ) {
+                              $('.yield').html(post_response)
+                            });
+                          }
+                      }
+                  },
+                  marker: {
+                      lineWidth: 1
+                  }
+              }
           },
           series: [{
               name: 'Positive',
-              data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+               color: '#ff8a65',
+              data: data.positive,
           }, {
               name: 'Neutral',
-              data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+              color: '#607d8b',
+              data: data.neutral
           }, {
               name: 'Negative',
-              data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+              color: '#0288d1',
+              data: data.negative
           }]
       });
     });
