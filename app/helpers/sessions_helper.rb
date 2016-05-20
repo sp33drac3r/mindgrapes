@@ -15,5 +15,6 @@ helpers do
 
   def logout!
     session[:user_id] = nil
+    @user = nil
   end
 end
