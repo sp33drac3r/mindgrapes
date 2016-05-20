@@ -29,10 +29,7 @@ helpers do
 
   def sentiment_extruder(paragraphs)
     averages = {}
-    pos_scores = []
-    neu_scores = []
-    neg_scores = []
-    weights    = []
+    pos_scores, neu_scores, neg_scores, weights = Array.new(4) {[]}
     paragraphs.each do |paragraph|
       pos_scores << paragraph.pos.to_f
       neu_scores << paragraph.neutral.to_f
