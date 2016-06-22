@@ -1,0 +1,484 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.0
+-- Dumped by pg_dump version 9.5.3
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: paragraphs; Type: TABLE; Schema: public; Owner: rileyscheid
+--
+
+CREATE TABLE paragraphs (
+    id integer NOT NULL,
+    post_id integer,
+    pos numeric,
+    neutral numeric,
+    neg numeric,
+    char_length integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE paragraphs OWNER TO rileyscheid;
+
+--
+-- Name: paragraphs_id_seq; Type: SEQUENCE; Schema: public; Owner: rileyscheid
+--
+
+CREATE SEQUENCE paragraphs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE paragraphs_id_seq OWNER TO rileyscheid;
+
+--
+-- Name: paragraphs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rileyscheid
+--
+
+ALTER SEQUENCE paragraphs_id_seq OWNED BY paragraphs.id;
+
+
+--
+-- Name: posts; Type: TABLE; Schema: public; Owner: rileyscheid
+--
+
+CREATE TABLE posts (
+    id integer NOT NULL,
+    user_id integer,
+    text text,
+    pos_avg numeric,
+    neutral_avg numeric,
+    neg_avg numeric,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE posts OWNER TO rileyscheid;
+
+--
+-- Name: posts_id_seq; Type: SEQUENCE; Schema: public; Owner: rileyscheid
+--
+
+CREATE SEQUENCE posts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE posts_id_seq OWNER TO rileyscheid;
+
+--
+-- Name: posts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rileyscheid
+--
+
+ALTER SEQUENCE posts_id_seq OWNED BY posts.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: rileyscheid
+--
+
+CREATE TABLE schema_migrations (
+    version character varying NOT NULL
+);
+
+
+ALTER TABLE schema_migrations OWNER TO rileyscheid;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: rileyscheid
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    email character varying NOT NULL,
+    password_hash character varying NOT NULL,
+    ok_to_email boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE users OWNER TO rileyscheid;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: rileyscheid
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE users_id_seq OWNER TO rileyscheid;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rileyscheid
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: rileyscheid
+--
+
+ALTER TABLE ONLY paragraphs ALTER COLUMN id SET DEFAULT nextval('paragraphs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: rileyscheid
+--
+
+ALTER TABLE ONLY posts ALTER COLUMN id SET DEFAULT nextval('posts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: rileyscheid
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Data for Name: paragraphs; Type: TABLE DATA; Schema: public; Owner: rileyscheid
+--
+
+COPY paragraphs (id, post_id, pos, neutral, neg, char_length, created_at, updated_at) FROM stdin;
+1	1	0.464814763032508	0.94135178561902	0.535185236967492	123	2016-05-20 18:42:09.674446	2016-05-20 18:42:09.674446
+2	1	0.437363325659893	0.165064180705095	0.562636674340107	174	2016-05-20 18:42:09.679377	2016-05-20 18:42:09.679377
+3	2	0.45235531802428	0.828654671176749	0.54764468197572	344	2016-05-20 18:42:29.586624	2016-05-20 18:42:29.586624
+4	2	0.601634074516955	0.732971913825936	0.398365925483045	190	2016-05-20 18:42:29.592509	2016-05-20 18:42:29.592509
+5	3	0.478784766157222	0.891609728727876	0.521215233842778	307	2016-05-20 18:42:50.435442	2016-05-20 18:42:50.435442
+6	3	0.283111311507814	0.57557918950455	0.716888688492186	559	2016-05-20 18:42:50.44197	2016-05-20 18:42:50.44197
+7	3	0.618627989893102	0.0462513315114371	0.381372010106898	249	2016-05-20 18:42:50.445645	2016-05-20 18:42:50.445645
+8	4	0.552330280116344	0.825353193870032	0.447669719883656	265	2016-05-20 18:43:01.496193	2016-05-20 18:43:01.496193
+9	4	0.149276211336636	0.148056442072935	0.850723788663365	109	2016-05-20 18:43:01.502232	2016-05-20 18:43:01.502232
+10	5	0.344911023830428	0.932102095677087	0.655088976169572	116	2016-05-20 18:43:35.445793	2016-05-20 18:43:35.445793
+11	5	0.36469724366837	0.457874041640968	0.63530275633163	157	2016-05-20 18:43:35.451835	2016-05-20 18:43:35.451835
+12	5	0.522401724288885	0.666331697576472	0.477598275711115	194	2016-05-20 18:43:35.45605	2016-05-20 18:43:35.45605
+13	5	0.319509997840011	0.699712607691203	0.680490002159989	91	2016-05-20 18:43:35.459613	2016-05-20 18:43:35.459613
+14	5	0.49797300164363	0.347651845997274	0.50202699835637	130	2016-05-20 18:43:35.46326	2016-05-20 18:43:35.46326
+15	6	0.267731738344674	0.529348791804371	0.732268261655326	1006	2016-05-20 18:43:46.65138	2016-05-20 18:43:46.65138
+16	6	0.706425694653519	0.127428216520261	0.293574305346481	248	2016-05-20 18:43:46.657261	2016-05-20 18:43:46.657261
+17	7	0.682488499348876	0.62961276965556	0.317511500651124	115	2016-05-20 18:43:58.611307	2016-05-20 18:43:58.611307
+18	7	0.411746331242135	0.822904635693341	0.588253668757865	931	2016-05-20 18:43:58.618499	2016-05-20 18:43:58.618499
+19	7	0.577582002517958	0.297264559682403	0.422417997482042	254	2016-05-20 18:43:58.622826	2016-05-20 18:43:58.622826
+20	8	0.388722719428626	0.702871317105813	0.611277280571374	349	2016-05-20 18:44:09.713734	2016-05-20 18:44:09.713734
+21	8	0.603237909666605	0.635812229982526	0.396762090333395	167	2016-05-20 18:44:09.718334	2016-05-20 18:44:09.718334
+22	8	0.939293631009243	0.65124800901941	0.060706368990757	245	2016-05-20 18:44:09.721947	2016-05-20 18:44:09.721947
+23	8	0.518180237559606	0.281834794099543	0.481819762440394	273	2016-05-20 18:44:09.72575	2016-05-20 18:44:09.72575
+24	9	0.570797393031024	0.155273004782094	0.429202606968976	570	2016-05-20 18:44:17.562205	2016-05-20 18:44:17.562205
+25	10	0.634872602825652	0.87757284096037	0.365127397174348	449	2016-05-20 18:44:25.967262	2016-05-20 18:44:25.967262
+26	10	0.376803545742843	0.946096257042678	0.623196454257157	68	2016-05-20 18:44:25.975499	2016-05-20 18:44:25.975499
+27	10	0.203219328110129	0.685248714742764	0.796780671889871	601	2016-05-20 18:44:25.980489	2016-05-20 18:44:25.980489
+28	10	0.449507782554064	0.333425449821772	0.550492217445936	166	2016-05-20 18:44:25.984597	2016-05-20 18:44:25.984597
+29	11	0.54702586568986	0.617065248290491	0.45297413431014	38	2016-05-20 18:45:09.629551	2016-05-20 18:45:09.629551
+30	12	0.716047290907233	0.216477759440734	0.283952709092767	21	2016-05-20 18:45:20.327273	2016-05-20 18:45:20.327273
+31	12	0.228252163670853	0.951785759438204	0.771747836329147	48	2016-05-20 18:45:20.333785	2016-05-20 18:45:20.333785
+32	12	0.727262791054862	0.484777377597505	0.272737208945138	71	2016-05-20 18:45:20.337488	2016-05-20 18:45:20.337488
+33	13	0.152383104816998	0.161562990142489	0.847616895183002	376	2016-05-20 18:45:32.83908	2016-05-20 18:45:32.83908
+34	13	0.507225164571122	0.534976968212944	0.492774835428878	72	2016-05-20 18:45:32.845211	2016-05-20 18:45:32.845211
+35	13	0.575826135858006	0.729868822200323	0.424173864141994	185	2016-05-20 18:45:32.848859	2016-05-20 18:45:32.848859
+36	13	0.760113471806855	0.480205290369571	0.239886528193145	349	2016-05-20 18:45:32.85262	2016-05-20 18:45:32.85262
+37	13	0.549617207471634	0.661497283503726	0.450382792528366	67	2016-05-20 18:45:32.856672	2016-05-20 18:45:32.856672
+38	13	0.679970071059935	0.74482841284254	0.320029928940065	484	2016-05-20 18:45:32.860513	2016-05-20 18:45:32.860513
+39	13	0.423331321656953	0.896842150009161	0.576668678343047	636	2016-05-20 18:45:32.864159	2016-05-20 18:45:32.864159
+40	13	0.541684282514962	0.716429364883269	0.458315717485038	104	2016-05-20 18:45:32.867795	2016-05-20 18:45:32.867795
+41	14	0.351087673694201	0.260513261150382	0.648912326305799	130	2016-05-20 18:45:41.156637	2016-05-20 18:45:41.156637
+42	14	0.821943546187354	0.832520393763264	0.178056453812646	104	2016-05-20 18:45:41.169949	2016-05-20 18:45:41.169949
+43	14	0.420804071746897	0.833883789271981	0.579195928253103	29	2016-05-20 18:45:41.178756	2016-05-20 18:45:41.178756
+44	15	0.408542852670686	0.763270963843578	0.591457147329314	87	2016-05-20 18:45:51.605614	2016-05-20 18:45:51.605614
+45	15	0.37906248271031	0.87861073488138	0.62093751728969	35	2016-05-20 18:45:51.611493	2016-05-20 18:45:51.611493
+46	15	0.227366439013961	0.334572773479905	0.772633560986039	61	2016-05-20 18:45:51.615121	2016-05-20 18:45:51.615121
+47	15	0.27475896780525	0.349039360145732	0.72524103219475	88	2016-05-20 18:45:51.618674	2016-05-20 18:45:51.618674
+48	16	0.644009567599052	0.827850385831099	0.355990432400948	238	2016-05-20 18:46:05.908167	2016-05-20 18:46:05.908167
+49	17	0.43684505472148	0.871644956375384	0.56315494527852	418	2016-05-20 18:46:14.870974	2016-05-20 18:46:14.870974
+50	17	0.510649243528068	0.737308787878379	0.489350756471932	183	2016-05-20 18:46:14.885295	2016-05-20 18:46:14.885295
+51	17	0.277241005403098	0.205919369595773	0.722758994596902	131	2016-05-20 18:46:14.889512	2016-05-20 18:46:14.889512
+52	18	0.661166643455529	0.902486868041207	0.338833356544471	389	2016-05-20 18:46:27.414275	2016-05-20 18:46:27.414275
+53	18	0.422299327529896	0.703586975058183	0.577700672470104	215	2016-05-20 18:46:27.420169	2016-05-20 18:46:27.420169
+54	18	0.342635944923784	0.501737554510279	0.657364055076216	95	2016-05-20 18:46:27.424264	2016-05-20 18:46:27.424264
+55	18	0.572705335678596	0.950440772370074	0.427294664321404	136	2016-05-20 18:46:27.427879	2016-05-20 18:46:27.427879
+56	18	0.646695014716499	0.15409763047496	0.353304985283501	1121	2016-05-20 18:46:27.431372	2016-05-20 18:46:27.431372
+57	19	0.471820886681232	0.691884696461518	0.528179113318768	168	2016-05-20 18:46:36.866584	2016-05-20 18:46:36.866584
+58	19	0.425395161522664	0.870732128283302	0.574604838477336	103	2016-05-20 18:46:36.872746	2016-05-20 18:46:36.872746
+59	19	0.645921387263881	0.213081677760088	0.354078612736119	99	2016-05-20 18:46:36.877074	2016-05-20 18:46:36.877074
+60	19	0.794669548479553	0.601548415280484	0.205330451520447	90	2016-05-20 18:46:36.881268	2016-05-20 18:46:36.881268
+61	19	0.472342122564278	0.750914333318526	0.527657877435722	134	2016-05-20 18:46:36.885524	2016-05-20 18:46:36.885524
+62	20	0.439090003117287	0.194087427830028	0.560909996882713	121	2016-05-20 18:46:46.081712	2016-05-20 18:46:46.081712
+63	20	0.59307401653404	0.919039998132677	0.40692598346596	115	2016-05-20 18:46:46.096831	2016-05-20 18:46:46.096831
+64	20	0.656985276936314	0.156404683740242	0.343014723063686	148	2016-05-20 18:46:46.101431	2016-05-20 18:46:46.101431
+65	20	0.435932748408417	0.978403795824983	0.564067251591583	231	2016-05-20 18:46:46.106476	2016-05-20 18:46:46.106476
+66	20	0.40232902339368	0.20691011052745	0.59767097660632	187	2016-05-20 18:46:46.11106	2016-05-20 18:46:46.11106
+67	20	0.224804582993193	0.246412722909497	0.775195417006807	153	2016-05-20 18:46:46.115592	2016-05-20 18:46:46.115592
+68	21	0.810243679740053	0.600585933009251	0.189756320259947	55	2016-05-20 18:46:55.395736	2016-05-20 18:46:55.395736
+69	21	0.725164965053619	0.145680570178674	0.274835034946381	12	2016-05-20 18:46:55.408479	2016-05-20 18:46:55.408479
+70	21	0.803374664335896	0.649699849291214	0.196625335664104	102	2016-05-20 18:46:55.413305	2016-05-20 18:46:55.413305
+71	22	0.651395307955396	0.724557819516396	0.348604692044604	86	2016-05-20 18:47:04.847498	2016-05-20 18:47:04.847498
+72	22	0.43679809191893	0.541895468492761	0.56320190808107	393	2016-05-20 18:47:04.853688	2016-05-20 18:47:04.853688
+73	23	0.453655102528502	0.35228942692742	0.546344897471498	142	2016-05-20 18:48:47.061726	2016-05-20 18:48:47.061726
+74	23	0.304914178244774	0.727610629226779	0.695085821755226	124	2016-05-20 18:48:47.066217	2016-05-20 18:48:47.066217
+75	23	0.50169887865872	0.852512112170448	0.49830112134128	226	2016-05-20 18:48:47.069823	2016-05-20 18:48:47.069823
+76	23	0.36870359296225	0.899651873357573	0.63129640703775	594	2016-05-20 18:48:47.07332	2016-05-20 18:48:47.07332
+77	23	0.708600530607428	0.989012411676639	0.291399469392572	107	2016-05-20 18:48:47.076872	2016-05-20 18:48:47.076872
+78	24	0.139000749898717	0.182586688463951	0.860999250101283	61	2016-05-20 18:48:56.833849	2016-05-20 18:48:56.833849
+79	24	0.419074160798404	0.871917995270311	0.580925839201596	262	2016-05-20 18:48:56.83985	2016-05-20 18:48:56.83985
+80	24	0.443412790159016	0.875601830979178	0.556587209840984	182	2016-05-20 18:48:56.843526	2016-05-20 18:48:56.843526
+81	24	0.394686866751985	0.580511092406163	0.605313133248015	300	2016-05-20 18:48:56.847277	2016-05-20 18:48:56.847277
+82	24	0.431235783216931	0.255261621018838	0.568764216783069	323	2016-05-20 18:48:56.850936	2016-05-20 18:48:56.850936
+83	25	0.228057422844591	0.82301955223414	0.771942577155409	578	2016-05-20 18:49:07.01742	2016-05-20 18:49:07.01742
+84	25	0.687053423595777	0.861718578265783	0.312946576404223	238	2016-05-20 18:49:07.026045	2016-05-20 18:49:07.026045
+85	25	0.372387366762562	0.710510287217931	0.627612633237438	367	2016-05-20 18:49:07.030054	2016-05-20 18:49:07.030054
+86	25	0.680858914349411	0.400971342547264	0.319141085650589	474	2016-05-20 18:49:07.041833	2016-05-20 18:49:07.041833
+87	25	0.254511418852874	0.304571885280753	0.745488581147126	44	2016-05-20 18:49:07.045763	2016-05-20 18:49:07.045763
+88	26	0.411196597494633	0.921820079122743	0.588803402505367	232	2016-05-20 18:49:14.468316	2016-05-20 18:49:14.468316
+89	26	0.457974274990807	0.604978760634181	0.542025725009193	26	2016-05-20 18:49:14.475816	2016-05-20 18:49:14.475816
+90	26	0.12211029465491	0.667143411300889	0.87788970534509	352	2016-05-20 18:49:14.481023	2016-05-20 18:49:14.481023
+91	26	0.148406001792454	0.832233096290434	0.851593998207546	309	2016-05-20 18:49:14.484914	2016-05-20 18:49:14.484914
+92	26	0.484260199953869	0.621579161122104	0.515739800046131	217	2016-05-20 18:49:14.49046	2016-05-20 18:49:14.49046
+93	27	0.153603550061149	0.906662858464518	0.846396449938851	585	2016-05-20 18:49:21.877993	2016-05-20 18:49:21.877993
+94	27	0.332478103837668	0.82475706646998	0.667521896162332	296	2016-05-20 18:49:21.884041	2016-05-20 18:49:21.884041
+95	27	0.214266777876657	0.313282780256872	0.785733222123343	118	2016-05-20 18:49:21.887725	2016-05-20 18:49:21.887725
+96	27	0.58730910374785	0.396643780754811	0.41269089625215	131	2016-05-20 18:49:21.891512	2016-05-20 18:49:21.891512
+97	28	0.557793119321346	0.811931223797516	0.442206880678654	92	2016-05-20 18:49:29.397423	2016-05-20 18:49:29.397423
+98	28	0.663147215133784	0.810797456002989	0.336852784866216	81	2016-05-20 18:49:29.403438	2016-05-20 18:49:29.403438
+99	28	0.416939799156621	0.893727852844807	0.583060200843379	173	2016-05-20 18:49:29.407669	2016-05-20 18:49:29.407669
+100	28	0.781173828506237	0.717821976166318	0.218826171493763	108	2016-05-20 18:49:29.411971	2016-05-20 18:49:29.411971
+101	29	0.749872280410127	0.606725989974104	0.250127719589873	283	2016-05-20 18:49:36.732547	2016-05-20 18:49:36.732547
+102	30	0.517274561722518	0.728537862307204	0.482725438277482	280	2016-05-20 18:49:46.040294	2016-05-20 18:49:46.040294
+103	30	0.364805173836518	0.904020249508331	0.635194826163482	417	2016-05-20 18:49:46.044856	2016-05-20 18:49:46.044856
+104	30	0.509500192146698	0.609908353724079	0.490499807853302	327	2016-05-20 18:49:46.048627	2016-05-20 18:49:46.048627
+105	30	0.504551539736469	0.941357924862672	0.495448460263531	206	2016-05-20 18:49:46.05217	2016-05-20 18:49:46.05217
+106	31	0.440223064344096	0.368474393879063	0.559776935655904	148	2016-05-20 18:49:56.153456	2016-05-20 18:49:56.153456
+107	31	0.565914608827596	0.686443367049799	0.434085391172404	276	2016-05-20 18:49:56.159824	2016-05-20 18:49:56.159824
+108	31	0.504586051172944	0.151933153197321	0.495413948827056	141	2016-05-20 18:49:56.163651	2016-05-20 18:49:56.163651
+109	32	0.492313001706582	0.889337078003727	0.507686998293418	57	2016-05-20 18:50:03.915701	2016-05-20 18:50:03.915701
+110	32	0.556476945615985	0.0528543212842524	0.443523054384015	35	2016-05-20 18:50:03.921779	2016-05-20 18:50:03.921779
+111	33	0.289991430437914	0.413389986179185	0.710008569562086	35	2016-05-20 18:50:11.293753	2016-05-20 18:50:11.293753
+112	34	0.339781896883699	0.59222192634975	0.660218103116301	101	2016-05-20 18:50:18.073265	2016-05-20 18:50:18.073265
+113	34	0.862923325850845	0.651852962608993	0.137076674149155	207	2016-05-20 18:50:18.078496	2016-05-20 18:50:18.078496
+114	34	0.643080388702629	0.71526311950644	0.356919611297371	123	2016-05-20 18:50:18.082804	2016-05-20 18:50:18.082804
+115	35	0.366286644834067	0.892939044848119	0.633713355165933	378	2016-05-20 18:50:25.509087	2016-05-20 18:50:25.509087
+116	36	0.235030802978616	0.858884368226726	0.764969197021384	168	2016-05-20 18:50:33.167188	2016-05-20 18:50:33.167188
+117	36	0.371862676965997	0.526157275089346	0.628137323034003	194	2016-05-20 18:50:33.173747	2016-05-20 18:50:33.173747
+118	36	0.418825096418881	0.900455883961754	0.581174903581119	254	2016-05-20 18:50:33.177829	2016-05-20 18:50:33.177829
+119	36	0.569291233626698	0.783641043908295	0.430708766373302	191	2016-05-20 18:50:33.181472	2016-05-20 18:50:33.181472
+120	36	0.53297912067665	0.792437010553752	0.46702087932335	22	2016-05-20 18:50:33.185273	2016-05-20 18:50:33.185273
+121	36	0.639676877651593	0.570857368944558	0.360323122348407	29	2016-05-20 18:50:33.18886	2016-05-20 18:50:33.18886
+122	37	0.684962029975035	0.755261634245497	0.315037970024965	109	2016-05-20 18:50:42.263272	2016-05-20 18:50:42.263272
+123	37	0.670262851218072	0.344192865295428	0.329737148781928	60	2016-05-20 18:50:42.270253	2016-05-20 18:50:42.270253
+124	38	0.416652768789591	0.643609669265755	0.583347231210409	28	2016-05-20 18:50:51.60943	2016-05-20 18:50:51.60943
+125	38	0.484808610707056	0.107647200804383	0.515191389292944	76	2016-05-20 18:50:51.616615	2016-05-20 18:50:51.616615
+126	38	0.484555404131421	0.0716171219432639	0.515444595868579	106	2016-05-20 18:50:51.620392	2016-05-20 18:50:51.620392
+127	39	0.401579188308758	0.84831112902475	0.598420811691242	370	2016-05-20 18:51:02.754292	2016-05-20 18:51:02.754292
+128	40	0.593005889799276	0.918272373662599	0.406994110200724	60	2016-05-20 18:51:16.932981	2016-05-20 18:51:16.932981
+129	40	0.343907263571531	0.161225507976701	0.656092736428469	76	2016-05-20 18:51:16.937694	2016-05-20 18:51:16.937694
+130	40	0.409365265700952	0.557311310317982	0.590634734299048	185	2016-05-20 18:51:16.941366	2016-05-20 18:51:16.941366
+131	40	0.593770608344712	0.499657613370132	0.406229391655288	41	2016-05-20 18:51:16.944955	2016-05-20 18:51:16.944955
+132	40	0.488609224949486	0.899509883348772	0.511390775050514	256	2016-05-20 18:51:16.948464	2016-05-20 18:51:16.948464
+133	40	0.766064882208582	0.269279100376394	0.233935117791418	53	2016-05-20 18:51:16.952112	2016-05-20 18:51:16.952112
+134	40	0.649114226674545	0.75406490262774	0.350885773325455	192	2016-05-20 18:51:16.955606	2016-05-20 18:51:16.955606
+135	41	0.607086959157067	0.901159968888792	0.392913040842933	34	2016-05-20 18:52:36.961335	2016-05-20 18:52:36.961335
+136	41	0.552571719337695	0.214925216440502	0.447428280662305	63	2016-05-20 18:52:36.968804	2016-05-20 18:52:36.968804
+137	42	0.623143609740432	0.6575969664677	0.376856390259568	192	2016-05-20 18:52:53.092975	2016-05-20 18:52:53.092975
+138	42	0.781299691569992	0.23725417325435	0.218700308430008	58	2016-05-20 18:52:53.100795	2016-05-20 18:52:53.100795
+139	42	0.160338631671952	0.43265941400226	0.839661368328048	215	2016-05-20 18:52:53.105451	2016-05-20 18:52:53.105451
+140	42	0.55513400738392	0.803363488599879	0.44486599261608	310	2016-05-20 18:52:53.109202	2016-05-20 18:52:53.109202
+141	42	0.227795680355964	0.427848687431357	0.772204319644036	153	2016-05-20 18:52:53.112818	2016-05-20 18:52:53.112818
+142	43	0.83083751116072	0.10350135647119	0.16916248883928	27	2016-05-20 23:57:45.163114	2016-05-20 23:57:45.163114
+\.
+
+
+--
+-- Name: paragraphs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rileyscheid
+--
+
+SELECT pg_catalog.setval('paragraphs_id_seq', 142, true);
+
+
+--
+-- Data for Name: posts; Type: TABLE DATA; Schema: public; Owner: rileyscheid
+--
+
+COPY posts (id, user_id, text, pos_avg, neutral_avg, neg_avg, created_at, updated_at) FROM stdin;
+3	1	Byrnes & I discussed General Marshall's last letter and decided to ask him to come home. Byrnes is going to quit on the tenth and I shall make Marshall Sec[retary] of State. Some of the crackpots will in all probability yell their heads off-but let 'em yell! Marshall is the ablest man in the whole gallery.\r\nMrs. Roosevelt came in at 3 P.M. to assure me that Jimmy & Elliott had nothing against me and intended no disparagement of me in their recent non-edited remarks. Said she was for me. Said she didn't like Byrnes and was sure he was not reporting Elliott correctly. Said Byrnes was always for Byrnes and no one else. I wonder! He's been loyal to me[.] In the Senate he gave me my first small appropriation, which started the Special Committee to investigate the National Defense Program on its way. He'd probably have done me a favor if he'd refused to give it.\r\nMaybe there was something on both sides in this situation. It is a pity a great man has to have progeny! Look at Churchill's. Remember Lincoln's and Grant's. Even in collateral branches Washington's wasn't so good-and Teddy Roosevelt's are terrible.	0.411914363969971	0.544385233362197	0.588085636030029	1947-01-03 18:42:50	2016-05-20 18:59:17.392108
+4	1	Spent the day working on State of the Union, Economic and Budget messages. Having a terrible time with the Economic one. The Commission have no White House experience. I've turned them over to Steelman[,] Harriman, Snyder and Schwellenbach, and I hope for the best.\r\nThe awful 79th Congress put me on the spot. Now I've a job putting the 80th on the same spot to make us even.	0.434862650445253	0.627959220752696	0.565137349554748	1947-01-04 18:43:01	2016-05-20 19:00:12.329379
+5	1	Spent all morning with the State of the Union Message. Went to sleep at 12:15 last night or this morning reading it.\r\nSlept until 7:30-most unusual. Get up nearly every morning at 5:30 or five minutes to six. Took an "electric" shave (practically none) and then went walking at\r\n8 A.M. with Jim Rowley[,] Chief of the White House S[ecret] S[ervice] detail and a couple of more men following. And some in a car following along behind. I'm not supposed to know about the car.\r\nWent down F St[.] and back G. Like to look in merchants['] windows. Had breakfast at 9 A.M.\r\nAt 12:45 had the G. D. message in shape. Read & reread. Spent the afternoon in study on the same message and the Economic one too.	0.425036308938111	0.607771808496446	0.574963691061889	1947-01-05 18:43:35	2016-05-20 19:01:49.746683
+6	1	Arose at 5:45 A.M.[,] read the papers and at 7:10 walked to the station to meet the family. Took 35 minutes. It was a good walk. Sure is fine to have them back. This great white jail is a hell of a place in which to be alone. While I work from early morning until late at night, it is a ghostly place. The floors pop and crack all night long. Anyone with imagination can see old Jim Buchanan walking up and down worrying about conditions not of his making. Then there's Van Buren who inherited a terrible mess from his predecessor as did poor old James Madison. Of course Andrew Johnson was the worst mistreated of any of them. But they all walk up and down the halls of this place and moan about what they should have done and didn't. So-you see. I've only named a few. The ones who had Boswells and New England historians are too busy trying to control heaven and hell to come back here. So the tortured souls who were and are misrepresented in history are the ones who come back. It's a hell of a place.\r\nRead my annual message. It was good if I do say it myself. Outlines by me to begin with, the cabinet, the little cabinet, Sam Rosenman, the Chief Justice all added criticisms. Clark Clifford did most of the work. He's a nice boy and will go places.	0.354490989672101	0.449862107059188	0.645509010327899	1947-01-06 18:43:46	2016-05-20 19:02:57.953189
+7	1	A terrific day. After the usual go around, discussion of the budget and other things, a swim seemed to be in order.\r\nMr. Byrnes called at 5 P.M. and said he'd like to see me. He came to the executive office and told me that there had been a leak on his resignation, effective Jan. 10th. I had expected to hold a press conference at 4:00 P.M. Jan. 10th and announce the resignation of Mr[.] Byrnes as Sec[retary] of State. About 5 P.M. Mr. B[yrnes] called me and asked if he could see me. I was getting ready for a swim but of course I see any Cabinet Officer at any time. He came to the exec[utive] office all out of breath and told me that the N. Y. Times had obtained the information of his resignation and that he was morally certain that the information had leaked at the White House. Well only my Secretarial Staff knew of it-and they had known since April 19, 1946! Mr. Byrnes finally got round to suggesting that the release should be made at once. Well I called in Charlie Ross and Bill Hassett and we cooked up the release and it was made.\r\nI had indicated to Gen[eral] Marshall that the release would not be made until Jan[.] 10th. But Gen[eral] Marshall is a real man and I'm sure he'll understand just as I do. Byrnes was very happy at the Diplomatic Reception at 9 P.M. although he was late.	0.468098338808546	0.7031037557694	0.531901661191454	1947-01-07 18:43:58	2016-05-20 19:03:37.176231
+1	1	Spent the day at work. Was aboard the Williamsburg with secretaries and miltary [sic] and naval aides, and Adm[iral] Leahy.\r\nHad a most pleasant evening-and so did everyone, apparently. Went to bed at 1:30 A.M. tomorrow after Chief Ph[ysician's] M[a]t[e]. Taylor gave me a good and thorough rub down	0.448732102753602	0.486557027184599	0.551267897246398	1947-01-01 18:42:09	2016-05-20 18:56:12.184376
+2	1	Arose at 7:30, shaved, dressed and had breakfast at 8:15 with Adm[iral] Foskett the naval aide and Capt[ain] Freeman, Commander of the Williamsburg. Arrived at the White House about 9 A.M. Had a beautiful snow the night before. Trees in the White House yard were beautiful. R[ea]r Adm[iral] Foskett came to the House with me and then went home.\r\nSpent the day working on messages. Called all the members of the Cabinet[,] wished them a happy New Year. Called Henry Stimson, Miss Perkins, Gen[eral] Eisenhower and Gen[eral] Flemming too.	0.505469482319427	0.794610244403988	0.494530517680573	1947-01-02 18:42:29	2016-05-20 18:58:10.393109
+9	1	Went to Nat[ional] Press Club dinner at the Statler. The show was good. I was introduced at the end for remarks. They seemed to be well pleased with what was said. After complimenting the show and entertainment and thanking the Club for a pleasant evening, I explained that organizations and individuals were constantly importuning me to make proclamations for various days & weeks, such as Cat Week, Horse Week, Foot Happiness Week, Laugh Week, Liars Week[,] etc. Each one was discussed and elaborated to some extent and the audience seemed pleased. I hope that was so.	0.570797393031024	0.155273004782094	0.429202606968976	1947-01-11 18:44:17	2016-05-20 19:05:11.051971
+11	1	We go to K[ansas] C[ity.] See mamma[.]	0.54702586568986	0.617065248290491	0.45297413431014	1947-03-02 18:45:09	2016-05-20 19:08:00.84006
+12	1	Spend a pleasant day.\r\nGo to bed and get called a[t] 2:30 A.M. Tuesday.\r\nIt is a nice morning. But we run into clouds over Texas and Okla[homa].	0.554491108072486	0.604649594362229	0.445508891927514	1947-03-03 18:45:20	2016-05-20 19:09:06.005882
+8	1	The papers this morning are full of Marshall's appointment and Mr. B[yrne]'s resignation. I am very sorry Mr. Byrnes decided to quit. I'm sure he'll regret it-and I know I do. He is a good negotiator-a very good one. But of course I don't want to be the cause of his death and his Dr. told him in March 1946 that he must slow down. So much for that.\r\nThe Senate took Marshall lock, stock and barrell [sic]. Confirmed him by unanimous consent and did not even refer his nomination to a committee. A grand start for him.\r\nI am very happy over that proceedure [sic]. Marshall is, I think[,] the greatest man of the World War II. He managed to get along with Roosevelt, the Congress, Churchill, the Navy and the Joint Chief of Staff and he made a grand record in China.\r\nWhen I asked him to take the extrovert Pat Hurley[']s place as my special envoy to China, he merely said "Yes, Mr. President I'll go." No argument only patriotic action. And if any man was entitled to balk and ask for a rest, he was. We'll have a real State Dep[artmen]t now.	0.588003002365523	0.568645447849073	0.411996997634477	1947-01-08 18:44:09	2016-05-20 19:04:24.397072
+13	1	Come into sight of Monterey [sic] after the sun had been up an hour or two. Country looks like a map. About nine or nine thirty see Popocatepetl and try to see Orizaba-haze too thick[,] can't see it. Approach rim around Tenochtitlan Valley-up 11000 feet. No discomfort. Beautiful valley. Must have been lovely when a lake. Too bad the Spaniards drained it. Made a lot of dust.\r\nPerfect day. Land at 10:00 on the dot. My pilot never misses a schedule.\r\nStep down from plane. Mexican President comes down steps of observation tower at same time. We meet. I like him at once. He introduces his Cabinet, I introduce my secretaries and aides.\r\nWe walk to platform beautiful [sic] decorated with flowers-both flags worked out in flowers. The Mexican President welcomes me. I am made a citizen of the Federal district by its Governor-another Aleman[,] no kin of the President. He pins a beautiful gold medal on me. I make suitable reply and mispronounce Tenochtitlan to the delight of everybody.\r\nWe get into my big open Lincoln car and start for American Embassy.\r\nNever saw such crowds-such enthusiasm. Arrive at Embassy[,] bid President goodbye. Have dinner at Palace where I make a speech in reply to the [Truman writes "Tuesday night" above this part of the entry] Mexican Presidents. Shake hands with some two or three thousand. The President & I go out upon a balcony with a rug over the railing and wave to a sea of people-thousands so they say. Have seen pictures of Franz Joseph, Marcus Aurelius & Napoleon doing it. But it[']s my first time.\r\nTuesday morning lay a wreath on soldiers monument with lots and lots of ceremony. Then the Foreign Minister and I drive to the Chepultepec where I place a wreath on the Monument to the Ninos [sic] Heros [sic]-cadets who stood up to Old Fuss & Feathers until all but one was killed. He wraped [sic] the Mexican Flag around himself and jumped 200 feet to his death. The monument is where he fell. Had all the cadets lined up and the Foreign Minister and the Commandant of the Cadets wept-so did news men and photographers. I almost did myself. It seems that tribute to these young heros [sic] really set off the visit. They had it coming.\r\nLunch at Embassy and reception. More hand shakes-3000 of 'em. Dinner at Embassy for President of Mexico.	0.50907498869495	0.638627776337516	0.49092501130505	1947-03-04 18:45:32	2016-05-20 19:10:09.97581
+14	1	Fiesta! oh my what a show. Never saw anything like it and never expect to again[.] 60000 in the Stadium and twice as many outside.\r\nDinner with the President at his house. Three Ex-Presidents present. A grand time. Music and everything.\r\nTo bed at 1 A.M. What a time!	0.544968990358901	0.549929561938466	0.455031009641099	1947-03-06 18:45:40	2016-05-20 19:10:56.590855
+15	1	Left Mexico City at 6 A.M. Everyone[,] President, Cabinet, half the City to see me off.\r\nLand at Waco in the rain at 11 A.M.\r\nDoc tell's [sic] me I have Cardiac Asthma! Ain[']t that hell.\r\nWell it makes no diff[erence,] will go on as before. I've sworn him to secrecy! So What!	0.320511280531085	0.547159972141469	0.679488719468915	1947-03-07 18:45:51	2016-05-20 19:11:39.501841
+16	1	Meeting with "big six" in study at White House. Present[:] Barclay [sic], Rayburn, Vandenberg, Martin, White, Halleck. Extention of II [Second] War Powers Act discussed. Sugar, rent, food, transportation controls at stake. Hope for renewal.	0.644009567599052	0.827850385831099	0.355990432400948	1947-03-24 18:46:05	2016-05-20 19:12:27.625346
+17	1	Meeting with Argentine Ambassador. He is going to Argentine [sic]. Invited Dean Atcheson [sic], Tom Connolly [sic] and Vandenberg. Told the Ambassador that we wanted friendly relations with his country, but that we also wanted compliance with agreements made at San Francisco and Mexico City. Informed him that there were still Nazi war criminals loose in his country. They should be rounded up and deported for trial.\r\nHe talked of Communism in Chili [sic], Brazil and Bolivia. It was intimated that Argentines [sic] compliance was the subject of conversation. He said that Communism is rife in Brazil.\r\nI doubt if we accomplished anything. The Ambassador speaks terrible English. Said Argentine [sic] wanted to get along with us, etc.	0.426733082168061	0.718921499130738	0.573266917831939	1947-03-31 18:46:14	2016-05-20 19:13:07.504426
+31	1	We have had a grand cruise aboard the Battleship Missouri. It ended today at Norfolk. I gave the Captain leave to put on all the "dog" the navy likes.\r\nRecieved [sic] all the commanders, Army, Navy, Marine Corps, Coast Guard and then went overside with all the honors. If it pleased the Navy and all the rest I'm happy because I had a pleasant trip from Rio. Took about 21 hours to go down and twelve days cruising to come back.\r\nWe had all sorts of maneuvers etc[.] to amuse me, including Neptune and Davy Jones when the crossed the 0º line. Everybody enjoyed it-I hope.	0.517685095176509	0.469761334868439	0.482314904823491	1947-09-19 18:49:55	2016-05-20 19:27:56.149197
+19	1	Was driven to Charlottesville, V[irgini]a at 2 P.M. Stayed at Stanley Woodward's farm beyond Monticello and a mile this side of Ashlawn. Had a most delightful week end.\r\nOf course on the 4th had to take the plaudits of the populous [sic] but outside that no in convenience.\r\nMr. Woodward and his charming wife really know what protocol means-without the "stripped [sic] pants"\r\nVisited Monroe's Ashland after the festivities and enjoyed it very much. This on July 4th.\r\nWent back to the N[orth] of V[irgini]a at 5 P.M. July 4th to a party given by Adm[iral] Halsey to the press. Had a very pleasant time.	0.541821433880772	0.642725593193417	0.458178566119228	1947-07-03 18:46:36	2016-05-20 19:14:50.637099
+21	1	Spent a quiet pleasant day at Stanley Woodward's place.\r\nIt is ideal.\r\nHaven't had a more pleasant week end since moving into the great white jail, known as the White House!	0.800056791293537	0.597927679203294	0.199943208706463	1947-07-05 18:46:55	2016-05-20 19:19:10.947044
+22	1	Drove an open car from Charlottesville to Washington-starting at 9:15 Washington time.\r\nHad a V[irgini]a Highway Policeman in a car ahead making the pace at exactly the speed allowed by V[irgini]a law. He forced all the trucks to one side as I always wanted to do. Made the drive in 3 hours. Had Sec[retary] of Treas[ury] Snyder, Adm[iral] Leahy, and Doctor Brig[adier] Gen[eral] Graham as passengers. All said they enjoyed the ride and felt they needed no extra accident coverage!	0.47532702840982	0.574690796651493	0.52467297159018	1947-07-06 18:47:04	2016-05-20 19:20:15.218525
+39	1	The Congressional leaders were called to the Executive Office for conference. It was agreed that the long term plan for European recovery would not be sent to the Congress until the Bill for Interim Aid and the Appropriation had been passed. It was also agreed that Congress would not adjourn until the long time plan was recieved [sic] by them. A very pleasant meeting.	0.401579188308758	0.84831112902475	0.598420811691242	1947-12-15 18:51:02	2016-05-20 19:34:09.011596
+18	1	Called in Sec[retary] of State, Gen[eral] Marshall, Sec[retary] of War, Sec[retary of the] Navy, Gen[eral] Eisenhower, Adm[iral] Leahy, and Adm[iral] Nimitz along with Dr. Lillienthal to discuss new atomic bombs, and the advisability of testing them. Gen[eral] Marshall agreed that they should be tested but at a date beyond the Foreign Minister's meeting in Nov.-say from Feb[.] to April.\r\nI appointed Patterson, Forestal [sic] and Dr. Lillienthal to work out details with Gen[eral] Eisenhower and Adm[iral] Nimitz as advisors. Gen[eral] Marshall & Adm[iral] Leahy to be consulted as developments proceed.\r\nWe must make the tests without insulting the Bolshies or our own Red helpers-headed by Wallace.\r\nLunched with Marshall & Att[orne]y. Gen[eral] Clark in John Pye's dining room. Ross, Clifford, Latta[,] Haskett & John Steelman present.\r\nMarshall told the best story of World War II[,] at least Winston Churchill thinks it is. I endorse Churchill's judgement-about an American Army Chaplain being driven into Tunis after the German surrender. All Americans had gone forward so Germans took over traffic direction. Traffic terribly snarled up. The Chaplain with his corporal driver was stopped by a tough Nazi at a street crossing and completely "balled out" just as an American cop would do it-only in addition to the balling out the Nazi traffic cop told the chaplain what he thought of the inefficiency and general no account make up of Americans. The Chaplain was kind and polite and tried his level best to be decent. In fact he went so far that the poor corporal driver could hardly hold his tongue. Finally the Chaplain pointed to his insignia and informed the tough Nazi cop that he belonged to the religious section of the army and finally remarked-"I am only up here to plant some of you Nazi bastards." The corporal was made very happy by that remark and I suppose the good Chaplain regreted [sic] it. Any way it's a good story and I agree with Winston.	0.604995721697532	0.435586425249885	0.395004278302468	1947-06-27 18:46:27	2016-05-20 19:14:01.797098
+20	1	Had most cordial reception at Jefferson's home-some 4000 or 5000 people there to hear me speak. Speech seemed to go over.\r\nHeld a reception before speaking time and then signed some programs for those who had helped with the arrangements.\r\nThe Governor of V[irgini]a made a very, very nice welcoming speech as did Mr. Houston, Pres[ident] of the Jefferson foundation, just before I spoke.\r\nRoad to the U[niversity] of V[irgini]a in the car with Mayor Adams of Charlottesville, Gov[ernor] Tuck of V[irgini]a and Hon[orable] Colgate Darden, Pres[ident] of the U[niversity] of V[irgini]a and a former Governor of V[irgini]a.\r\nMrs. Astor-Lady Astor came to the car just before we started from Monticello to say to me that she liked my policies as President but that she thought I had become rather too much "Yankee."\r\nI couldn't help telling her that my purported "Yankee" tendencies were not half so bad as her ultra conservative British leanings. She almost had a stroke.	0.449108185047227	0.47615359775456	0.550891814952773	1947-07-04 18:46:45	2016-05-20 19:15:47.029338
+23	1	Had ten minutes conversation with Henry Morgenthau about Jewish ship in Palistine [sic]. Told him I would talk to Gen[eral] Marshall about it.\r\nHe'd no business, whatever to call me. The Jews have no sense of proportion nor do they have any judgement on world affairs.\r\nHenry brought a thousand Jews to New York on a supposedly temporary basis and they stayed. When the country went backward-and Republican in the election of 1946, this incident loomed large on the D[isplaced] P[ersons] program.\r\nThe Jews, I find are very, very selfish. They care not how many Estonians, Latvians, Finns, Poles, Yugoslavs or Greeks get murdered or mistreated as D[isplaced] P[ersons] as long as the Jews get special treatment. Yet when they have power, physical, financial or political neither Hitler nor Stalin has anything on them for cruelty or mistreatment to the under dog. Put an underdog on top and it makes no difference whether his name is Russian, Jewish, Negro, Management, Labor, Mormon, Baptist he goes haywire. I've found very, very few who remember their past condition when prosperity comes.\r\nLook at the Congress[ional] attitude on D[isplaced] P[ersons]-and they all come from D[isplaced] P[erson]s.	0.427864643950412	0.815703348551663	0.572135356049588	1947-07-21 18:48:46	2016-05-20 19:20:58.920445
+40	1	Sent to Congress the European Recovery Plan (Marshall Plan).\r\nNo Presidential Message in my tenure has had the same careful consideration.\r\nHad the Dep[artmen]t of Interior survey our assets, the Dep[artmen]t of Commerce survey the impact on our economy after a survey had been made by the Council of Economic Advisors [sic].\r\nHad the Treasury look into the financing.\r\nAnd finally had State, Defence [sic] and the White House Secretariat, headed by John Steelman, Cabinet Secretary and Clark Clifford, Special Council[,] prepare a draft of a message. After seven or eight trials one came up, on which all could finally agree.\r\nIt is a good message and a historical State Document.\r\nCongress adjourned. We obtained the Interim Aid Plan & the money-part of it. But Congress tore its pants on the economic situation. They gave us a perfectly assinine [sic] bill-thanks to Taft.	0.523881583292976	0.672381018939453	0.476118416707024	1947-12-19 18:51:16	2016-05-20 19:34:59.809743
+24	1	Had the usual hectic day, though not so bad as some I've had.\r\nLectured eleven junior Democratic Congressmen on foreign policy. Had four Republicans not long ago-nice young men, to whom I gave the same treatment. If I could only get all the young ones together, the military & foreign policy would become the law of the land.\r\nTalked to young Franklin for almost thirty minutes on Jews, New York, California, his daddy's papers and political matters generally. Said he & his mamma were not with Henry Wallace!\r\nWent to Jim Forestal's [sic] house to a party for Bob Patterson. It was a nice one. A couple of Senators-Vandenburg [sic] & Gurney, the Cabinet, Gen[eral] Eisenhower & three Navy Captains. Don't know [why] Leahy, Nimitz & House members were not there. Sam Rayburn was present-only House member there.\r\nHow we'll miss Mrs. Patterson! as well as the Sec[retary] of War. Looks as if we've lost a grand, honest man & wife of the same caliber and have gained a good man and a baby talking, henna haired lady. She went to school with Claire Booth Luce-too bad I'd say. Cabinet women are a problem. I'll write a book on it some day.	0.404851792275362	0.581154846902718	0.595148207724638	1947-07-23 18:48:56	2016-05-20 19:22:01.446162
+25	1	At 3:30 today had a very interesting conversation with Gen[eral] Eisenhower. Sent for him to discuss the new Sec[retary] for National Defense. Asked him if he could work with Forestal [sic]. He said he could. Told him that I would have given the job to Bob Patterson had he stayed on as Sec[retary] of War. I couldn't bring myself to force him to stay. He has three daughters comming [sic] on for education and I know what that means, having had only one. But she is in a class by herself and I shouldn't judge Patterson's three by her. No one ever had a daughter equal to mine!\r\nAfter the discussion on Forestal [sic] was over Ike & I visited and talked politics. He is going to Columbia U[niversity] in NY as President. What a job he can do there. He'll do it too. We discussed MacArthur and his superiority complex.\r\nWhen Ike went to the far east on an inspection tour in 1946 I asked him to tell Gen[eral] Marshall, then special envoy to China, if he'd accept appointment to Sec[retary] of State. Byrnes was tired, sick and wanted to quit. Ike, when he returned came in and said "Gen[eral] Marshall said yes." So when Byrnes quit I appointed Marshall and did not even ask him about it!\r\nIke & I think MacArthur expects to make a Roman Triumphal return to the U. S. a short time before the Republican Convention meets in Philadelphia. I told Ike that if he did that that he (Ike) should announce for the nomination for President on the Democratic ticket and that I'd be glad to be in second place, or Vice President. I like the Senate anyway. Ike & I could be elected and my family & myself would be happy outside this great white jail, known as the White House.\r\nIke won't quot [sic] me & I won't quote him.	0.450280832835377	0.673141197852631	0.549719167164623	1947-07-25 18:49:06	2016-05-20 19:22:42.277005
+28	1	Returned to Washington. Had the new crew on the Sacred Cow sign the two maps-going & coming.\r\nThe new plane "Independence["] is in Brazil with the Sec[retary] of the Treas[ury].\r\nLanded in Washington at 4:16. Called Bess from White House. She was worried because our new pilots couldn't make the old cow run as fast as L[ieutenan]t Col[onel] Myers can.\r\nThe new pilots were rattled on account of the passenger and were careful & conservative. They are nice boys.	0.576055617040021	0.820510921792351	0.423944382959979	1947-07-29 18:49:29	2016-05-20 19:25:30.153694
+30	1	Arose at 2 A.M., shaved, took a bath and then called Bess & Margaret. Both were up when I called them. We had a very nice breakfast and signed autographs for the commandant and the troop commander. I wrote a personal note to our host and autographed dollar bills for all the help.\r\nWhen we arrived at the plane we found everybody present but the press secretary, Charlie Ross. He'd told Hassett to put on his stripped [sic] pants and formal coat and Mr. Hassett had done so. Then he had to go out in the rain and call a number of the party. Gen[eral] Vaughan said he'd put grapefruits in the knees of his pants! We sent a special messenger for Ross and he arrived in time for us to take off at 3:15.\r\nArrived at Belem at 8:45. Saw the Guiana jungle and was greatly impressed at the Amazon. It is beyond discription [sic]. We landed on its south bank. I took a walk around the air station. We were in the air at 9:15 A.M. Saw all of Brazil from Belem to Rio de Janeiro. Our approach to Rio was as perfect as we could have wanted.\r\nCircled the city, landed on an island in the harbour [sic]. Took a power boat to the city. The President & Mrs. Dutra recieved [sic] us and we had a drive and reception through the city that seldom happens.	0.461386028284403	0.792135617626403	0.538613971715597	1947-09-01 18:49:45	2016-05-20 19:27:05.288824
+32	1	Landed in Washington aboard the Williamsburg at 8:00 A.M.\r\nEveryone glad to get home. So am I.	0.516723197759072	0.571109942295231	0.483276802240928	1947-09-20 18:50:03	2016-05-20 19:28:41.42807
+33	1	Have all sorts of things facing me.	0.289991430437914	0.413389986179185	0.710008569562086	1947-09-21 18:50:11	2016-05-20 19:29:28.098603
+35	1	Had my new chairman of the Citizens Food Committee in to see me at ten. Told him action is what is needed. Then went in to the Cabinet Food Committee meeting. Told them that they should act as Board of Directors and Luckman as executive and that all would be responsible to me. The Citizens Committee of which Luckman is Chairman to work out plans and a program for my approval.	0.366286644834067	0.892939044848119	0.633713355165933	1947-09-30 18:50:25	2016-05-20 19:31:04.452071
+36	1	Had an acrimonious meeting of my secretaries this morning in the Cabinet Room. Matt Connelly & Clark Clifford on one side and Charlie Ross & John Steelman on the other.\r\nMatt & Clark were afraid Luckman is trying to steal the lime light in the food emergency. I'm not. We worked out a statement for the 10 A.M. meeting in the movie room for the Citizens Committee.\r\nIt was a good meeting. I went back to the office and had the usual go around until 1 P.M. Then had to decide the argument between Charlie & John and Clark & Matt. I let Luckman announce his committee plan at a press conference, supporting Charlie & John.\r\nListened to some commentators and then called Dr. Steelman & told him to tell Luckman he'd done well. He'd had a hell of a press conference and some of the smart alecks had tried to trap him.\r\nHe came out very well.\r\nWe Are Going to Win This One.	0.416105949244392	0.767770159759636	0.583894050755608	1947-10-01 18:50:32	2016-05-20 19:32:06.149719
+37	1	The Congressional Record should be read very carefully during the following days and until Congress adjourns.\r\nThe message, in my opinion[,] also should be carefully read.	0.679743386629368	0.609320059470325	0.320256613370632	1947-11-17 18:50:42	2016-05-20 19:32:51.117222
+38	1	Gridiron Club had its night.\r\nMr. Martin made such a very pleasant speech I just had to go shake his hand.\r\nThat made it most difficult for me to reply. But all seemed satisfied with what was said by the President.	0.475593356084645	0.160922252031239	0.524406643915355	1947-12-13 18:50:51	2016-05-20 19:33:31.980467
+41	1	My sister Mary Jane came in today.\r\nThe whole in law family are comming [sic]. I'm glad I like 'em.	0.571680153913557	0.455461109051243	0.428319846086443	1947-12-20 18:52:36	2016-05-20 19:35:32.768839
+27	1	This was a terrible day. Arose at 6:15[,] had breakfast, fixed up by Bess at seven. Didn't sleep much Saturday night or Sunday night. So took a nap after breakfast. Had a time doing it. The Mayor of Ind[e]p[endence,] Roger Sermon, a [World] War I buddy of mine[,] came in at 9:30 with Renick Jones[,] a lifetime friend of mine[,] to pay respects. When they left the house I started to take a nap and Charlie Ross my Press Secretary called and said that the Mexican Ambassador wanted to come and see me on orders from Pres[ident] Aleman to pay his respects personally. He came at 10:30.\r\nI took a short nap, had lunch at 12:00 and went to Grandview, arriving at 1:00. All the cousins on both sides came. About fifty of them. The Baptist preacher Wellborn Bowman conducted the service. It was as mamma wanted it. We went to Forest Hill and the preacher did it excellently at the grave.\r\nAlong the road all cars, trucks and pedestrians stood with hats off. It made me want to weep-but I couldn't in public.\r\nI've read thousands of messages from all over the world in the White House study and I can shed tears as I please-no one's looking.\r\n	0.257073068939943	0.764118201084998	0.742926931060057	1947-07-28 18:49:21	2016-05-20 19:24:30.126739
+29	1	At 9 A.M. we leave Washington for Brazil. I am in doubt about what the result may be. We have a pleasant flight to Trinadad [sic], and a cordial reception by the British Governor and the U.S. Commandant. Stay at the house of the American C[ommanding] O[fficer]. It was very pleasant.	0.749872280410127	0.606725989974104	0.250127719589873	1947-08-31 18:49:36	2016-05-20 19:26:16.625328
+34	1	Had General Fleming in at 3 P.M. to discuss the hurricane disaster on Gulf Coast. Very bad in places.\r\nHad Sec[retary] of State, Agriculture, Commerce & John Steelman, Under Sec[retary] of Treas[ury] & Clifford & Bob Lovett in to discuss meeting with Congressional leaders tomorrow. It was a very good meeting.\r\nWent to 1st Baptist Church at 9:45[.] Spoke to the Sunday School Graduating Classes. Walked both ways. It was a lovely day.	0.677591619134111	0.655975270349602	0.322408380865889	1947-09-28 18:50:17	2016-05-20 19:30:22.621257
+10	1	Had quite a day. (Look at schedule for this day, the day before and the day before that.) The Crown Prince of Arabia with his retinue and the Minister from his country to ours came in with the Secretary of State (Mr. Byrnes) and discussed Mid East Affairs at some length. Arabians are jealous of Syrians, Iraqis, Egyptians and Turks. They seem to like us but are suspicious of the British. They hate the Bolshiviks [sic]. It was an interesting talk.\r\nThey afterwards came to lunch. It was a gala affair. See guest list.\r\nWas sitting at my desk just before dinner tonight when [name of person and staff position restricted] came up and asked if he might speak to me. He was scared stiff and almost crying. Said he'd got his checks mixed up, had lied to the Secret Service and he wanted to tell me before his boss did. As usual I felt sorry for him and promised to help him out. I wonder why nearly everyone makes a father confessor out of me. I must look benevolent or else I'm a known easy mark. Well any way I like people and like to help 'em and keep 'em out of trouble when I can and help 'em out when they get into it.\r\nThe rule around here is that no one may speak to the President. I break it every day and make 'em speak to me. So-you see what I get. But I still want 'em to tell me.	0.395197467194231	0.720831661449317	0.604802532805769	1947-01-16 18:44:25	2016-05-20 19:05:57.17068
+26	1	My sister, Mary Jane, called & said that mamma is sinking swiftly. Dr. Greene was at home in Grandview and said she'd not last long. Call was at 9 A.M. Washington time. I ordered plane set up at 12:30. Began getting things in order.\r\nCongress quitting tonight.\r\nUnification bill passed. Asked that it be sent up so I could appoint Defence [sic] Secretary. Printing office closed. Finally recieved [sic] bill at air port. Signed it and appointed Forestal [sic]. All favor him. Took off at 12:30 Washington time. At 1:30 Washington time recieved [sic] message my mother has passed on. Terrible shock. No one knew it.\r\nArrived in Grandview about 3:30 CST[,] went to the house and met sister & brother. Went to Belton with them and picked a casket. A terrible ordeal. Back to Grandview and then to Independence with Bess & Margie. They were at airport to meet me but stayed in Grandview while I went to Belton with Vivian & Mary.\r\nSpent Sunday morning and afternoon at Grandview. Mamma had been placed in casket we had decided upon and returned to her cottage. I couldn't look at her dead. I wanted to remember [her] alive when she was at her best.	0.265166974851146	0.753933883475457	0.734833025148854	1947-07-26 18:49:14	2016-05-20 19:23:22.380794
+42	1	Went to Bethesda to see Bill Hassett. Took him a poinsetta [sic] from the base of our Christmas tree and charged him with recieving [sic] flowers from Mrs. T[ruman] by me. He's a grand person.\r\nSaw Cordell Hull and Adm[iral] King. Both in fine spirits.\r\nWent through 3 or 4 wards and shook hands with patients who couldn't get out of bed. One negro [sic] patient told me that he had some sort of complicated ailment but after shaking my hand he had high blood pressure!\r\nWent over to Walter Reed from Bethesda and went through the bed fast wards with Dr. Graham, my doctor & the C[ommanding] O[fficer] of the hospital. Met forty or fifty patients most of whom were war wounded. They were happy and optimistic. Makes a person ashamed to be gloomy even if world affairs are mixed up.\r\nWent down to the W[hite] H[ouse] garage to see the tree and then ate a tall dinner[,] gained a pound and a half and the doctor says I should take it off!	0.437905218075614	0.590026577870686	0.562094781924386	1947-12-25 18:52:52	2016-05-20 19:36:13.592189
+43	1	I love DBC! It's amazing!!!	0.83083751116072	0.10350135647119	0.16916248883928	2016-05-20 23:57:45.009702	2016-05-20 23:57:45.187043
+\.
+
+
+--
+-- Name: posts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rileyscheid
+--
+
+SELECT pg_catalog.setval('posts_id_seq', 43, true);
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: rileyscheid
+--
+
+COPY schema_migrations (version) FROM stdin;
+20160510173002
+20160510173055
+20160510173100
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: rileyscheid
+--
+
+COPY users (id, name, email, password_hash, ok_to_email, created_at, updated_at) FROM stdin;
+1	Riley	riley@gmail.com	$2a$10$ckSOGraG1QvbZmG0B7j84u/QlptGIIQrufY0mxk7GmpoQ7NCXguey	t	2016-05-20 18:40:57.918188	2016-05-20 18:40:57.918188
+\.
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rileyscheid
+--
+
+SELECT pg_catalog.setval('users_id_seq', 1, true);
+
+
+--
+-- Name: paragraphs_pkey; Type: CONSTRAINT; Schema: public; Owner: rileyscheid
+--
+
+ALTER TABLE ONLY paragraphs
+    ADD CONSTRAINT paragraphs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: posts_pkey; Type: CONSTRAINT; Schema: public; Owner: rileyscheid
+--
+
+ALTER TABLE ONLY posts
+    ADD CONSTRAINT posts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: rileyscheid
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_paragraphs_on_post_id; Type: INDEX; Schema: public; Owner: rileyscheid
+--
+
+CREATE INDEX index_paragraphs_on_post_id ON paragraphs USING btree (post_id);
+
+
+--
+-- Name: index_posts_on_user_id; Type: INDEX; Schema: public; Owner: rileyscheid
+--
+
+CREATE INDEX index_posts_on_user_id ON posts USING btree (user_id);
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: rileyscheid
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
