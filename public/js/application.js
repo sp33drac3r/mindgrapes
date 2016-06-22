@@ -140,17 +140,17 @@ $( document ).ready(function() {
               }
           },
           series: [{
-              name: 'Positive',
-               color: '#ff8a65',
-              data: data.positive,
+              name: 'Negative',
+              color: '#0288d1',
+              data: data.negative
           }, {
               name: 'Neutral',
               color: '#607d8b',
               data: data.neutral
           }, {
-              name: 'Negative',
-              color: '#0288d1',
-              data: data.negative
+              name: 'Positive',
+               color: '#ff8a65',
+              data: data.positive,
           }]
       });
     });
